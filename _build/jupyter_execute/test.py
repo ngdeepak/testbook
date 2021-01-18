@@ -1,4 +1,4 @@
-# The Great Red Spot
+# Creating a Data Frame
 
 Jupiter’s iconic Great Red Spot (GRS) is actually an enormous storm that is bigger than Earth that has raged for hundreds of years! {numref}`great-red-spot` below shows an image of Jupiter captured by the Hubble Space Telescope on June 27, 2019.
 
