@@ -28,6 +28,7 @@ fig = df.plot.scatter(x="Year", y="GRS Length", color="Recorder",
 fig.update_layout(title={'text': "Great Red Spot Size", 'x':0.5, 'y':0.92})
 fig.update_traces(marker=dict(size=7))
 
+
 fig = df.plot.scatter(x="Year", y="GRS Length",
                       animation_frame="Year",
                       range_x=[1870, 2030], range_y=[10, 40],
@@ -35,3 +36,9 @@ fig = df.plot.scatter(x="Year", y="GRS Length",
 fig.update_layout(title={'text': "Great Red Spot Size Animation", 'x':0.5, 'y':0.94})
 fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 200
 fig.update_traces(marker=dict(size=10))
+
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
+df = spark.createDataFrame([(1,2),(5,6)],["col1","col2"])
+df.show()
+
