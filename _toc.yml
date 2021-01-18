@@ -2,5 +2,5 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 #
 - file: intro
-- file: test.ipynb
+- file: test
 
