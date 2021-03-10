@@ -2,9 +2,10 @@
 # Learn more at https://jupyterbook.org/customize/config.html
 
 # Book settings
-title: My Jupiter Book
+title: Spark Data Frame Programming for Modern Data Engineering 
 author: Deepak Gowda
-logo: logo.png
+logo: images/sparklogo.png
+exclude_patterns: ["cache"]
 
 latex:
   latex_documents:

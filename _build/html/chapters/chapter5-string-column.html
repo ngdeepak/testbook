@@ -1,0 +1,1040 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 5 : String Columns &#8212; Spark Data Frame Programming for Modern Data Engineering</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://github.com/ngdeepak/testbook/chapters/chapter5-string-column.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 6 : Number Columns" href="chapter6-number-column.html" />
+    <link rel="prev" title="Chapter 4 : Data Types &amp; Schema" href="chapter4-data-types-schema.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://github.com/ngdeepak/testbook/chapters/chapter5-string-column.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Chapter 5 : String Columns" />
+<meta property="og:description" content="Chapter 5 : String Columns  Chapter Learning Objectives  Various data operations on columns containing string.  Chapter Outline  1. Various data operations on c" />
+<meta property="og:image"       content="https://github.com/ngdeepak/testbook/_static/sparklogo.png" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/sparklogo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Spark Data Frame Programming for Modern Data Engineering</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Author.html">
+   Jupiter Book
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Chapters
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter1-spark-basics.html">
+   Chapter 1: Spark Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter2-dataframe.html">
+   Chapter 2 : DataFrames
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter3-data-sources.html">
+   Chapter 3 : Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter4-data-types-schema.html">
+   Chapter 4 : Data Types &amp; Schema
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 5 : String Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter6-number-column.html">
+   Chapter 6 : Number Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter7-date-column.html">
+   Chapter 7 : Date Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter8-array-column.html">
+   Chapter 8 : Array Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter9-map-column.html">
+   Chapter 9 : Map Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter10-struct-column.html">
+   Chapter 10 : Struct Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter11-json-string-column.html">
+   Chapter 11 : JSON Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter12-null-nan-column.html">
+   Chapter 12 : Null &amp; NaN Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter13-user-defined-function.html">
+   Chapter 13 : User Defined Functions(UDFs)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter14-pandas-with-arrow.html">
+   Chapter 14 : Pandas User Defined Function
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter15-aggregate-operations.html">
+   Chapter 15 : Aggregate Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter16-join-operations.html">
+   Chapter 16 : Join operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter17-window-operations.html">
+   Chapter 17 : Window operations
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chapters/chapter5-string-column.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ngdeepak/testbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/ngdeepak/testbook/issues/new?title=Issue%20on%20page%20%2Fchapters/chapter5-string-column.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/ngdeepak/testbook/edit/master/chapters/chapter5-string-column.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ngdeepak/testbook/master?urlpath=tree/chapters/chapter5-string-column.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-learning-objectives">
+   Chapter Learning Objectives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-outline">
+   Chapter Outline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-outline-gallery">
+   Chapter Outline - Gallery
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-how-to-split-a-string">
+   1a. How to split a string?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#b-how-to-slice-a-string">
+   1b. How to slice a string?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#c-how-to-convert-lowercase-to-uppercase">
+   1c. How to convert lowercase to uppercase?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#d-how-to-convert-uppercase-to-lowercase">
+   1d. How to convert uppercase to lowercase?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e-how-to-extract-a-specific-group-matched-by-a-java-regex">
+   1e. How to extract a specific group matched by a Java regex?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#f-how-to-replace-a-specific-group-matched-by-a-java-regex">
+   1f. How to replace a specific group matched by a Java regex?
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="figure align-center" id="banner">
+<img alt="../_images/banner.png" src="../_images/banner.png" />
+</div>
+<div class="section" id="chapter-5-string-columns">
+<h1>Chapter 5 : String Columns<a class="headerlink" href="#chapter-5-string-columns" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="chapter-learning-objectives">
+<h2>Chapter Learning Objectives<a class="headerlink" href="#chapter-learning-objectives" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Various data operations on columns containing string.</p></li>
+</ul>
+</div>
+<div class="section" id="chapter-outline">
+<h2>Chapter Outline<a class="headerlink" href="#chapter-outline" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#1">1. Various data operations on columns containing string </a></p>
+<ul>
+<li><p><a class="reference external" href="#2">1a. How to split a string?</a></p></li>
+<li><p><a class="reference external" href="#3">1b. How to slice a string?</a></p></li>
+<li><p><a class="reference external" href="#4">1d. How to convert lowercase to uppercase?</a></p></li>
+<li><p><a class="reference external" href="#5">1c. How to convert uppercase to lowercase?</a></p></li>
+<li><p><a class="reference external" href="#6">1e. How to extract a specific group matched by a Java regex?</a></p></li>
+<li><p><a class="reference external" href="#7">1f. How to replace a specific group matched by a Java regex?</a></p></li>
+</ul>
+</li>
+</ul>
+<style>body {text-align: justify}</style><div class="cell tag_hide_input docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import panel as pn</span>
+<span class="c1"># css = &quot;&quot;&quot;</span>
+<span class="c1"># div.special_table + table, th, td {</span>
+<span class="c1">#   border: 3px solid orange;</span>
+<span class="c1"># }</span>
+<span class="c1"># &quot;&quot;&quot;</span>
+<span class="c1"># pn.extension(raw_css=[css])</span>
+<span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark SQL basic example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display_html</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">html_str</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">html_str</span><span class="o">+=</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_str</span><span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\xa0\xa0\xa0</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">10</span>
+    <span class="n">display_html</span><span class="p">(</span><span class="n">html_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">,</span><span class="s1">&#39;table style=&quot;display:inline&quot;&#39;</span><span class="p">),</span><span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\xa0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="chapter-outline-gallery">
+<h2>Chapter Outline - Gallery<a class="headerlink" href="#chapter-outline-gallery" title="Permalink to this headline">¶</a></h2>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:right head"><p>click on</p></th>
+<th class="text-align:left head"><p>any image</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:right"><p><a class="reference external" href="#2"><img alt="alt" src="../_images/112.png" /></a></p></td>
+<td class="text-align:left"><p><a class="reference external" href="#3"><img alt="alt" src="../_images/210.png" /></a></p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:right"><p><a class="reference external" href="#4"><img alt="alt" src="../_images/39.png" /></a></p></td>
+<td class="text-align:left"><p><a class="reference external" href="#5"><img alt="alt" src="../_images/49.png" /></a></p></td>
+</tr>
+<tr class="row-even"><td class="text-align:right"><p><a class="reference external" href="#6"><img alt="alt" src="../_images/57.png" /></a></p></td>
+<td class="text-align:left"><p><a class="reference external" href="#7"><img alt="alt" src="../_images/66.png" /></a></p></td>
+</tr>
+</tbody>
+</table>
+<p><a id='2'></a></p>
+</div>
+<div class="section" id="a-how-to-split-a-string">
+<h2>1a. How to split a string?<a class="headerlink" href="#a-how-to-split-a-string" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/112.png" src="../_images/112.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.split(str, pattern, limit=-1)</b></p>
+<p>Splits str around matches of the given pattern.</p>
+<p><b>Parameters</b>:</p>
+<ul class="simple">
+<li><p>str : a string expression to split</p></li>
+<li><p>pattern : a string representing a regular expression. The regex string should be a Java regular expression.</p></li>
+<li><p>limit : an integer which controls the number of times pattern is applied.</p></li>
+</ul>
+<p>limit &gt; 0: The resulting array’s length will not be more than limit, and the
+resulting array’s last entry will contain all input beyond the last matched pattern.</p>
+<p>limit &lt;= 0: pattern will be applied as many times as possible, and the resulting
+array can be of any size.
+‘’’</p>
+</div>
+<p><b>Input:  Spark data frame with a column having a string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_string</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;abc__def__ghc&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;string&#39;</span><span class="p">,])</span>
+<span class="n">df_string</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------------+
+|       string|
++-------------+
+|abc__def__ghc|
++-------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column with a split string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">split</span>
+<span class="n">df_split</span> <span class="o">=</span> <span class="n">df_string</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">split</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">string</span><span class="p">,</span><span class="s1">&#39;__&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;split_string&#39;</span><span class="p">))</span>
+<span class="n">df_split</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------------+
+|   split_string|
++---------------+
+|[abc, def, ghc]|
++---------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_split</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>abc__def__ghc</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>split_string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>[abc, def, ghc]</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='3'></a></p>
+</div>
+<div class="section" id="b-how-to-slice-a-string">
+<h2>1b. How to slice a string?<a class="headerlink" href="#b-how-to-slice-a-string" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/49.png" src="../_images/49.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.slice(x, start, length)</b></p>
+<p>Collection function: returns an array containing all the elements in x from index start (array indices start at 1, or from the end if start is negative) with the specified length.</p>
+<p><b>Parameters</b>:</p>
+<ul class="simple">
+<li><p>x : the array to be sliced</p></li>
+<li><p>start : the starting index</p></li>
+<li><p>length : the length of the slice
+‘’’</p></li>
+</ul>
+</div>
+<p><b>Input:  Spark data frame with a column having a string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_string</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;abcdefghi&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;string&#39;</span><span class="p">,])</span>
+<span class="n">df_string</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|   string|
++---------+
+|abcdefghi|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column with a sliced string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">substring</span>
+<span class="n">df_sub</span> <span class="o">=</span> <span class="n">df_string</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">substring</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">string</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;substring&#39;</span><span class="p">))</span>
+<span class="n">df_sub</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|substring|
++---------+
+|     abcd|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_sub</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>abcdefghi</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>substring</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>abcd</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='4'></a></p>
+</div>
+<div class="section" id="c-how-to-convert-lowercase-to-uppercase">
+<h2>1c. How to convert lowercase to uppercase?<a class="headerlink" href="#c-how-to-convert-lowercase-to-uppercase" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/39.png" src="../_images/39.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<p>Converts a string expression to upper case.</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.upper(col)</b></p>
+<p>Converts a string expression to lower case.</p>
+<p><b>Parameters</b>:</p>
+<ul class="simple">
+<li><p>col : column
+‘’’</p></li>
+</ul>
+</div>
+<p><b>Input:  Spark data frame with a column having a lowercase string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_upper</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;ABCDEFGHI&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;uppercase&#39;</span><span class="p">,])</span>
+<span class="n">df_upper</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|uppercase|
++---------+
+|ABCDEFGHI|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column having a uppercase string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">lower</span>
+<span class="n">df_lower</span><span class="o">=</span> <span class="n">df_upper</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">lower</span><span class="p">(</span><span class="n">df_upper</span><span class="o">.</span><span class="n">uppercase</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;lowercase&#39;</span><span class="p">))</span>
+<span class="n">df_lower</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|lowercase|
++---------+
+|abcdefghi|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df_upper</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_lower</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>input                      output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>uppercase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ABCDEFGHI</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>lowercase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>abcdefghi</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='5'></a></p>
+</div>
+<div class="section" id="d-how-to-convert-uppercase-to-lowercase">
+<h2>1d. How to convert uppercase to lowercase?<a class="headerlink" href="#d-how-to-convert-uppercase-to-lowercase" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/210.png" src="../_images/210.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.lower(col)</b></p>
+<p>Converts a string expression to lower case.</p>
+<p><b>Parameters</b>:</p>
+<ul class="simple">
+<li><p>col : column
+‘’’</p></li>
+</ul>
+</div>
+<p><b>Input:  Spark data frame with a column having a string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_string</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;abcdefghc&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;lowercase&#39;</span><span class="p">,])</span>
+<span class="n">df_string</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|lowercase|
++---------+
+|abcdefghc|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column with a split string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">upper</span>
+<span class="n">df_upper</span><span class="o">=</span> <span class="n">df_string</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">upper</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">lowercase</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;uppercase&#39;</span><span class="p">))</span>
+<span class="n">df_upper</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---------+
+|uppercase|
++---------+
+|ABCDEFGHC|
++---------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df_string</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_upper</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>lowercase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>abcdefghc</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>uppercase</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>ABCDEFGHC</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='6'></a></p>
+</div>
+<div class="section" id="e-how-to-extract-a-specific-group-matched-by-a-java-regex">
+<h2>1e. How to extract a specific group matched by a Java regex?<a class="headerlink" href="#e-how-to-extract-a-specific-group-matched-by-a-java-regex" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/57.png" src="../_images/57.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.regexp_extract(str, pattern, idx)</b></p>
+<p>Extract a specific group matched by a Java regex, from the specified string column. If the regex did not match, or the specified group did not match, an empty string is returned.
+‘’’</p>
+</div>
+<p><b>Input:  Spark data frame with a column having a string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;100-200&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;str&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------+
+|    str|
++-------+
+|100-200|
++-------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column with a split string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">regexp_extract</span>
+<span class="n">df_regex1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">regexp_extract</span><span class="p">(</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(\d+)-(\d+)&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;regex&#39;</span><span class="p">))</span>
+<span class="n">df_regex1</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-----+
+|regex|
++-----+
+|  100|
++-----+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_regex1</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>str</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>100-200</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>regex</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='7'></a></p>
+</div>
+<div class="section" id="f-how-to-replace-a-specific-group-matched-by-a-java-regex">
+<h2>1f. How to replace a specific group matched by a Java regex?<a class="headerlink" href="#f-how-to-replace-a-specific-group-matched-by-a-java-regex" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/66.png" src="../_images/66.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.regexp_replace(str, pattern, replacement)</b></p>
+<p>Replace all substrings of the specified string value that match regexp with rep.
+‘’’</p>
+</div>
+<p><b>Input:  Spark data frame with a column having a string</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="s1">&#39;100-200&#39;</span><span class="p">,)],</span> <span class="p">[</span><span class="s1">&#39;string&#39;</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------+
+| string|
++-------+
+|100-200|
++-------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b>Output :  Spark data frame with a column with a regex</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">regexp_replace</span>
+<span class="n">df_regex2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">regexp_replace</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;(\d+)&#39;</span><span class="p">,</span> <span class="s1">&#39;--&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s1">&#39;replace&#39;</span><span class="p">))</span>
+<span class="n">df_regex2</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------+
+|replace|
++-------+
+|  -----|
++-------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_regex2</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>string</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>100-200</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>replace</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>-----</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "ngdeepak/testbook",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="chapter4-data-types-schema.html" title="previous page">Chapter 4 : Data Types &amp; Schema</a>
+    <a class='right-next' id="next-link" href="chapter6-number-column.html" title="next page">Chapter 6 : Number Columns</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepak Gowda<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+  </body>
+</html>

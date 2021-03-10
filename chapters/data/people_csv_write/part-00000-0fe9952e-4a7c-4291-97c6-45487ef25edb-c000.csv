@@ -1,0 +1,4 @@
+name,weight,smoker,height,birthdate,phone_nos,favorite_colors,address
+john,180,true,1.7,1960-01-01,"{\"office\":123456789,\"home\":223456789}","[\"blue\",\"red\"]","{\"houseno\":100,\"street\":\"street1\",\"city\":\"city1\",\"zipcode\":12345}"
+tony,180,true,1.8,1990-01-01,"{\"office\":223456789,\"home\":323456789}","[\"green\",\"purple\"]","{\"houseno\":200,\"street\":\"street2\",\"city\":\"city2\",\"zipcode\":22345}"
+mike,180,true,1.65,1980-01-01,"{\"office\":323456789,\"home\":423456789}","[\"yellow\",\"orange\"]","{\"houseno\":300,\"street\":\"street3\",\"city\":\"city3\",\"zipcode\":32345}"

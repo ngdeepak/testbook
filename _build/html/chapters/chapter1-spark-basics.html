@@ -1,0 +1,555 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 1: Spark Basics &#8212; Spark Data Frame Programming for Modern Data Engineering</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://github.com/ngdeepak/testbook/chapters/chapter1-spark-basics.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Chapter 2 : DataFrames" href="chapter2-dataframe.html" />
+    <link rel="prev" title="Jupiter Book" href="../Author.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://github.com/ngdeepak/testbook/chapters/chapter1-spark-basics.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Chapter 1: Spark Basics" />
+<meta property="og:description" content="Chapter 1: Spark Basics  Learning Objectives  Understand what Apache Spark is.  Understand distributed data vs non-distributed data.  Understand how distributed" />
+<meta property="og:image"       content="https://github.com/ngdeepak/testbook/_static/sparklogo.png" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/sparklogo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Spark Data Frame Programming for Modern Data Engineering</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Author.html">
+   Jupiter Book
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Chapters
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Chapter 1: Spark Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter2-dataframe.html">
+   Chapter 2 : DataFrames
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter3-data-sources.html">
+   Chapter 3 : Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter4-data-types-schema.html">
+   Chapter 4 : Data Types &amp; Schema
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter5-string-column.html">
+   Chapter 5 : String Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter6-number-column.html">
+   Chapter 6 : Number Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter7-date-column.html">
+   Chapter 7 : Date Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter8-array-column.html">
+   Chapter 8 : Array Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter9-map-column.html">
+   Chapter 9 : Map Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter10-struct-column.html">
+   Chapter 10 : Struct Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter11-json-string-column.html">
+   Chapter 11 : JSON Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter12-null-nan-column.html">
+   Chapter 12 : Null &amp; NaN Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter13-user-defined-function.html">
+   Chapter 13 : User Defined Functions(UDFs)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter14-pandas-with-arrow.html">
+   Chapter 14 : Pandas User Defined Function
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter15-aggregate-operations.html">
+   Chapter 15 : Aggregate Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter16-join-operations.html">
+   Chapter 16 : Join operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter17-window-operations.html">
+   Chapter 17 : Window operations
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chapters/chapter1-spark-basics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ngdeepak/testbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/ngdeepak/testbook/issues/new?title=Issue%20on%20page%20%2Fchapters/chapter1-spark-basics.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/ngdeepak/testbook/edit/master/chapters/chapter1-spark-basics.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ngdeepak/testbook/master?urlpath=tree/chapters/chapter1-spark-basics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#learning-objectives">
+   Learning Objectives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-outline">
+   Chapter Outline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-apache-spark">
+   1. What is Apache Spark?
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#what-is-distributed-data">
+   2. What is distributed data?
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#overview-of-how-data-is-stored-on-a-spark-cluster">
+     Overview of how data is stored on a spark cluster
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#overview-of-spark-cluster">
+   3. Overview of Spark Cluster
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#how-to-create-spark-session">
+   4. How to create spark session?
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="figure align-center" id="banner">
+<img alt="../_images/banner.png" src="../_images/banner.png" />
+</div>
+<div class="section" id="chapter-1-spark-basics">
+<h1>Chapter 1: Spark Basics<a class="headerlink" href="#chapter-1-spark-basics" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="learning-objectives">
+<h2>Learning Objectives<a class="headerlink" href="#learning-objectives" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Understand what Apache Spark is.</p></li>
+<li><p>Understand distributed data vs non-distributed data.</p></li>
+<li><p>Understand how distributed data is stored in spark.</p></li>
+<li><p>Overview of spark cluster.</p></li>
+<li><p>Understand the working of spark cluster.</p></li>
+</ul>
+</div>
+<div class="section" id="chapter-outline">
+<h2>Chapter Outline<a class="headerlink" href="#chapter-outline" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#1">1. What is Apache Spark?</a></p></li>
+<li><p><a class="reference external" href="#2">2. What is distributed data?</a></p></li>
+<li><p><a class="reference external" href="#3">3. Overview of Spark cluster </a></p></li>
+<li><p><a class="reference external" href="#4">4. How to create Spark session? </a></p></li>
+</ul>
+<p><a id='1'></a></p>
+</div>
+<div class="section" id="what-is-apache-spark">
+<h2>1. What is Apache Spark?<a class="headerlink" href="#what-is-apache-spark" title="Permalink to this headline">¶</a></h2>
+<div class="special_table"></div><style>body {text-align: justify}</style><p>Apache Spark is a unified analytics engine for large-scale data processing.
+It consists of various modules as shown in the diagram below</p>
+<div class="figure align-center">
+<img alt="../_images/1.png" src="../_images/1.png" />
+</div>
+<p>Spark’s Key Components</p>
+<ul class="simple">
+<li><p><b>Spark Core</b>— The general execution engine of the Spark platform, Spark Core contains various components for functions such as task scheduling, memory management, fault recovery, etc. Spark’s application program interface (API) that defines Resilient Distributed Datasets (RDDs) also resides in Spark Core. Thanks to RDDs—which can be thought of as a collection of items distributed across a vast number of compute nodes operating in parallel—Spark is able to draw on Hadoop clusters for stored data and process that data in-memory at unprecedented speeds, allowing data to be explored interactively in real-time.</p></li>
+<li><p><b>Spark SQL</b>—Big data consists of structured and unstructured data, each of which is queried differently. Spark SQL provides an SQL interface to Spark that allows developers to co-mingle SQL queries of structured data with the programmatic manipulations of unstructured data supported by RDDs, all within a single application. This ability to combine SQL with complex analytics makes Spark SQL a powerful open source tool for the data warehouse.</p></li>
+<li><p><b>Spark Streaming</b>—This Spark component enables analysts to process live streams of data, such as log files generated by production web servers, and live video and Stock Market feed. By providing an API for manipulating data streams that is a close match to Spark Core’s RDD API, Spark Streaming makes it easy for programmers to navigate between applications that process data stored in memory, on disk, or as it arrives in real time.</p></li>
+<li><p><b>MLlib</b>—Spark comes with an integrated framework for performing advanced analytics. Among the components found in this framework is Spark’s scalable Machine Learning Library (MLlib). The MLlib contains common machine learning (ML) functionality and provides a varied array of machine learning algorithms such as classification, regression, clustering, and collaborative filtering and model evaluation, and more. Spark and MLlib are set to run on a Hadoop 2.0 cluster without any pre-installation.</p></li>
+<li><p><b>GraphX</b>—Also found in Spark’s integrated framework is GraphX, a library of common graph algorithms and operators for manipulating graphs and performing graph-parallel computations. Extending the Spark RDD and API, GraphX allows users to create directed graphs with arbitrary properties attached to each vertex and edge. GraphX is best used for analytics on static graphs, such as Facebook’s Friend Graph that helps to uncover patterns that exist within social network connections.</p></li>
+</ul>
+<p>Apache Spark is one of the largest open source communities in big data. With the flexibility and scalability to deliver real-time processing, plus the ability to constantly evolve through open source contributions, Apache Spark is on its way to achieving rock star status as a premiere big data tool.</p>
+<p>Benefits:</p>
+<ul class="simple">
+<li><p><b>Speed</b> : Run workloads 100x faster.</p></li>
+<li><p><b>Ease of Use</b> : Write applications quickly in Java, Scala, Python, R, and SQL.</p></li>
+<li><p><b>Generality</b> : Combine SQL, streaming, and complex analytics.</p></li>
+<li><p><b>Runs Everywhere</b> : Spark runs on Hadoop, Apache Mesos, Kubernetes, standalone, or in the cloud. It can access diverse data sources</p></li>
+</ul>
+<div class="figure align-center">
+<img alt="../_images/2.png" src="../_images/2.png" />
+</div>
+<p><a id='2'></a></p>
+</div>
+<div class="section" id="what-is-distributed-data">
+<h2>2. What is distributed data?<a class="headerlink" href="#what-is-distributed-data" title="Permalink to this headline">¶</a></h2>
+<p>To answer this question, let us first understand how a non-distributed data look like. Lets us assume that a table consisting of just 3 records is stored on mySQL RDBMS in Linux.</p>
+<div class="figure align-center">
+<img alt="../_images/3.png" src="../_images/3.png" />
+</div>
+<div class="figure align-center">
+<img alt="../_images/4.png" src="../_images/4.png" />
+</div>
+<p>Having understood on how normal data is stored, let us look at how the same data is stored in a distributed data environment. Please note that distributed File System is required to store the data in distributed manner.</p>
+<p>Lets take a moment to understand what a distributed File System is.</p>
+<div class="figure align-center">
+<img alt="../_images/6.png" src="../_images/6.png" />
+</div>
+<p>Below is an example of how data is distributed across 3 nodes. In this example, table consisting of 2 columns(Name &amp; Age) and 3 rows are stored across 3 worker nodes .  Each node stores one record.
+In spark, data operations are mostly carried out directly on a node where data resides instead of getting the data from other nodes.</p>
+<div class="section" id="overview-of-how-data-is-stored-on-a-spark-cluster">
+<h3>Overview of how data is stored on a spark cluster<a class="headerlink" href="#overview-of-how-data-is-stored-on-a-spark-cluster" title="Permalink to this headline">¶</a></h3>
+<div class="figure align-center">
+<img alt="../_images/5.png" src="../_images/5.png" />
+</div>
+<p><a id='3'></a></p>
+</div>
+</div>
+<div class="section" id="overview-of-spark-cluster">
+<h2>3. Overview of Spark Cluster<a class="headerlink" href="#overview-of-spark-cluster" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/7.png" src="../_images/7.png" />
+</div>
+<p>Spark uses a master/slave architecture. As you can see in the figure above, it has one central coordinator (Driver) that communicates with many distributed workers (executors). The driver and each of the executors run in their own Java processes.</p>
+<p><b>DRIVER</b></p>
+<p>The driver is the process where the main method runs. First it converts the user program into tasks and after that it schedules the tasks on the executors.</p>
+<p><b>EXECUTORS</b></p>
+<p>Executors are worker nodes’ processes in charge of running individual tasks in a given Spark job. They are launched at the beginning of a Spark application and typically run for the entire lifetime of an application. Once they have run the task they send the results to the driver. They also provide in-memory storage for RDDs that are cached by user programs through Block Manager.</p>
+<p><b>APPLICATION EXECUTION FLOW</b></p>
+<p>With this in mind, when you submit an application to the cluster with spark-submit this is what happens internally:</p>
+<ol class="simple">
+<li><p>A standalone application starts and instantiates a SparkContext instance (and it is only then when you can call the application a driver).</p></li>
+<li><p>The driver program ask for resources to the cluster manager to launch executors.</p></li>
+<li><p>The cluster manager launches executors.</p></li>
+<li><p>The driver process runs through the user application. Depending on the actions and transformations over RDDs task are sent to executors.</p></li>
+<li><p>Executors run the tasks and save the results.</p></li>
+<li><p>If any worker crashes, its tasks will be sent to different executors to be processed again.
+Spark automatically deals with failed or slow machines by re-executing failed or slow tasks. For example, if the node running a partition of a map() operation crashes, Spark will rerun it on another node; and even if the node does not crash but is simply much slower than other nodes, Spark can preemptively launch a “speculative” copy of the task on another node, and take its result if that finishes.</p></li>
+<li><p>With SparkContext.stop() from the driver or if the main method exits/crashes all the executors will be terminated and the cluster resources will be released by the cluster manager.</p></li>
+</ol>
+<p><a id='4'></a></p>
+</div>
+<div class="section" id="how-to-create-spark-session">
+<h2>4. How to create spark session?<a class="headerlink" href="#how-to-create-spark-session" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark SQL basic example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>You should see the following output to make sure spark session is working</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spark</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html">
+    <div>
+        <p><b>SparkSession - in-memory</b></p>
+
+<div>
+    <p><b>SparkContext</b></p>
+
+    <p><a href="http://192.168.0.167:4047">Spark UI</a></p>
+
+    <dl>
+      <dt>Version</dt>
+        <dd><code>v3.0.1</code></dd>
+      <dt>Master</dt>
+        <dd><code>local[*]</code></dd>
+      <dt>AppName</dt>
+        <dd><code>Python Spark SQL basic example</code></dd>
+    </dl>
+</div>
+
+    </div>
+</div></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "ngdeepak/testbook",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='left-prev' id="prev-link" href="../Author.html" title="previous page">Jupiter Book</a>
+    <a class='right-next' id="next-link" href="chapter2-dataframe.html" title="next page">Chapter 2 : DataFrames</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepak Gowda<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+  </body>
+</html>

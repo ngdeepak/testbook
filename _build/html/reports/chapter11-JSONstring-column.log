@@ -1,0 +1,53 @@
+Traceback (most recent call last):
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 1087, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 540, in async_execute
+    await self.async_execute_cell(
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 832, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 740, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+df_mul.repartition(1).write.json("/Users/deepak/Documents/json1.json")
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mAnalysisException[0m                         Traceback (most recent call last)
+[0;32m<ipython-input-13-64080af3bd2e>[0m in [0;36m<module>[0;34m[0m
+[0;32m----> 1[0;31m [0mdf_mul[0m[0;34m.[0m[0mrepartition[0m[0;34m([0m[0;36m1[0m[0;34m)[0m[0;34m.[0m[0mwrite[0m[0;34m.[0m[0mjson[0m[0;34m([0m[0;34m"/Users/deepak/Documents/json1.json"[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/sql/readwriter.py[0m in [0;36mjson[0;34m(self, path, mode, compression, dateFormat, timestampFormat, lineSep, encoding, ignoreNullFields)[0m
+[1;32m    907[0m             [0mcompression[0m[0;34m=[0m[0mcompression[0m[0;34m,[0m [0mdateFormat[0m[0;34m=[0m[0mdateFormat[0m[0;34m,[0m [0mtimestampFormat[0m[0;34m=[0m[0mtimestampFormat[0m[0;34m,[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    908[0m             lineSep=lineSep, encoding=encoding, ignoreNullFields=ignoreNullFields)
+[0;32m--> 909[0;31m         [0mself[0m[0;34m.[0m[0m_jwrite[0m[0;34m.[0m[0mjson[0m[0;34m([0m[0mpath[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    910[0m [0;34m[0m[0m
+[1;32m    911[0m     [0;34m@[0m[0msince[0m[0;34m([0m[0;36m1.4[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/py4j/java_gateway.py[0m in [0;36m__call__[0;34m(self, *args)[0m
+[1;32m   1302[0m [0;34m[0m[0m
+[1;32m   1303[0m         [0manswer[0m [0;34m=[0m [0mself[0m[0;34m.[0m[0mgateway_client[0m[0;34m.[0m[0msend_command[0m[0;34m([0m[0mcommand[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m-> 1304[0;31m         return_value = get_return_value(
+[0m[1;32m   1305[0m             answer, self.gateway_client, self.target_id, self.name)
+[1;32m   1306[0m [0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/sql/utils.py[0m in [0;36mdeco[0;34m(*a, **kw)[0m
+[1;32m    132[0m                 [0;31m# Hide where the exception came from that shows a non-Pythonic[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    133[0m                 [0;31m# JVM exception message.[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 134[0;31m                 [0mraise_from[0m[0;34m([0m[0mconverted[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    135[0m             [0;32melse[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    136[0m                 [0;32mraise[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/sql/utils.py[0m in [0;36mraise_from[0;34m(e)[0m
+
+[0;31mAnalysisException[0m: path file:/Users/deepak/Documents/json1.json already exists.;
+AnalysisException: path file:/Users/deepak/Documents/json1.json already exists.;
+

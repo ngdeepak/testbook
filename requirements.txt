@@ -5,3 +5,4 @@ toree
 pyspark
 ghp-import
 sphinx-thebe
+PyArrow

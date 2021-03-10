@@ -1,7 +1,29 @@
 # Table of content
 # Learn more at https://jupyterbook.org/customize/toc.html
 #
-- file: intro
-- file: test
-- file: CreatingSparkDataFrame
+
+- file: Author
+  numbered: false
+
+- part: Chapters
+  chapters:
+  - file: chapters/chapter1-spark-basics
+  - file: chapters/chapter2-dataframe
+  - file: chapters/chapter3-data-sources
+  - file: chapters/chapter4-data-types-schema
+  - file: chapters/chapter5-string-column
+  - file: chapters/chapter6-number-column
+  - file: chapters/chapter7-date-column
+  - file: chapters/chapter8-array-column
+  - file: chapters/chapter9-map-column
+  - file: chapters/chapter10-struct-column
+  - file: chapters/chapter11-json-string-column
+  - file: chapters/chapter12-null-nan-column
+  - file: chapters/chapter13-user-defined-function
+  - file: chapters/chapter14-pandas-with-arrow
+  - file: chapters/chapter15-aggregate-operations
+  - file: chapters/chapter16-join-operations
+  - file: chapters/chapter17-window-operations
+
+
 

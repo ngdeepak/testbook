@@ -1,0 +1,3 @@
+{"name":"john","weight":180,"smoker":true,"height":1.7,"birthdate":"1960-01-01","phone_nos":{"office":123456789,"home":223456789},"favorite_colors":["blue","red"],"address":{"houseno":100,"street":"street1","city":"city1","zipcode":12345}}
+{"name":"tony","weight":180,"smoker":true,"height":1.8,"birthdate":"1990-01-01","phone_nos":{"office":223456789,"home":323456789},"favorite_colors":["green","purple"],"address":{"houseno":200,"street":"street2","city":"city2","zipcode":22345}}
+{"name":"mike","weight":180,"smoker":true,"height":1.65,"birthdate":"1980-01-01","phone_nos":{"office":323456789,"home":423456789},"favorite_colors":["yellow","orange"],"address":{"houseno":300,"street":"street3","city":"city3","zipcode":32345}}

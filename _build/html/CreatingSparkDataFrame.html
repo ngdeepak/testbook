@@ -67,7 +67,7 @@
 <meta property="og:url"         content="https://github.com/ngdeepak/testbook/CreatingSparkDataFrame.html" />
 <meta property="og:type"        content="article" />
 <meta property="og:title"       content="Creating Spark Data Frame" />
-<meta property="og:description" content="Creating Spark Data Frame    Here is my figure caption!" />
+<meta property="og:description" content="Creating Spark Data Frame  What is a Spark Data frame?  Spark Data Frame is a distributed collection of data organized into named columns. It can be constructed" />
 <meta property="og:image"       content="https://github.com/ngdeepak/testbook/_static/logo.png" />
 
 <meta name="twitter:card" content="summary" />
@@ -112,6 +112,16 @@
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
    Creating Spark Data Frame
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#creating-a-spark-dataframe">
+   Creating a Spark DataFrame
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#creating-a-spark-dataframe123">
+   Creating a Spark DataFrame123
   </a>
  </li>
 </ul>
@@ -217,6 +227,37 @@
     <!-- Table of contents -->
     <div class="d-none d-md-block col-md-2 bd-toc show">
         
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Creating Spark Data Frame
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#what-is-a-spark-data-frame">
+     What is a Spark Data frame?
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-a-spark-dataframe">
+   Creating a Spark DataFrame
+  </a>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#creating-a-spark-dataframe123">
+   Creating a Spark DataFrame123
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
     </div>
 </div>
     <div id="main-content" class="row">
@@ -226,9 +267,176 @@
                 
   <div class="section" id="creating-spark-data-frame">
 <h1>Creating Spark Data Frame<a class="headerlink" href="#creating-spark-data-frame" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="what-is-a-spark-data-frame">
+<h2>What is a Spark Data frame?<a class="headerlink" href="#what-is-a-spark-data-frame" title="Permalink to this headline">¶</a></h2>
+<p>Spark Data Frame is a distributed collection of data organized into named columns. It can be constructed from a wide array of sources such as: structured data files, tables in Hive, external databases, or existing RDD, Lists, Pandas data frame, json files, CSV files, parquet files etc</p>
 <div class="figure align-center" id="id1">
-<a class="reference internal image-reference" href="_images/dataframe.png"><img alt="_images/dataframe.png" src="_images/dataframe.png" style="width: 700px; height: 400px;" /></a>
-<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Here is my figure caption!</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+<a class="reference internal image-reference" href="_images/dataframe.png"><img alt="_images/dataframe.png" src="_images/dataframe.png" style="width: 400px; height: 250px;" /></a>
+<p class="caption"><span class="caption-number">Fig. 3 </span><span class="caption-text">Spark DataFrame</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+</div>
+<div class="section" id="creating-a-spark-dataframe">
+<h1>Creating a Spark DataFrame<a class="headerlink" href="#creating-a-spark-dataframe" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><p>from list</p></li>
+<li><p>from dict</p></li>
+</ul>
+</div>
+<div class="section" id="creating-a-spark-dataframe123">
+<h1>Creating a Spark DataFrame123<a class="headerlink" href="#creating-a-spark-dataframe123" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;SimpleApp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)],[</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span><span class="s2">&quot;col2&quot;</span><span class="p">])</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----+----+
+|col1|col2|
++----+----+
+|   1|   2|
+|   5|   6|
++----+----+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),(</span><span class="mi">7</span><span class="p">,</span><span class="mi">6</span><span class="p">)],[</span><span class="s2">&quot;col1&quot;</span><span class="p">,</span><span class="s2">&quot;col2&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display_html</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">html_str</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">html_str</span><span class="o">+=</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_str</span><span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\xa0\xa0\xa0</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">10</span>
+    <span class="n">display_html</span><span class="p">(</span><span class="n">html_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">,</span><span class="s1">&#39;table style=&quot;display:inline&quot;&#39;</span><span class="p">),</span><span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\xa0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">df1</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">,])</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)),</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span><span class="s1">&#39;B&#39;</span><span class="p">,</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">,])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df1</span><span class="p">,</span><span class="n">df2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>input                      output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>A</th>
+      <th>B</th>
+      <th>C</th>
+      <th>D</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>5</td>
+      <td>6</td>
+      <td>7</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>9</td>
+      <td>10</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>13</td>
+      <td>14</td>
+      <td>15</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">())</span>
+<span class="n">display</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">show</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+----+----+
+|col1|col2|
++----+----+
+|   1|   2|
+|   5|   6|
++----+----+
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>None
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">AttributeError</span><span class="g g-Whitespace">                            </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">27</span><span class="n">c3fc7550f1</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">())</span>
+<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">display</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">show</span><span class="p">())</span>
+
+<span class="nn">~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pandas/core/generic.py</span> in <span class="ni">__getattr__</span><span class="nt">(self, name)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5458</span>             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_info_axis</span><span class="o">.</span><span class="n">_can_hold_identifiers_and_holds_name</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<span class="g g-Whitespace">   </span><span class="mi">5459</span>                 <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+<span class="ne">-&gt; </span><span class="mi">5460</span>             <span class="k">return</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">5461</span> 
+<span class="g g-Whitespace">   </span><span class="mi">5462</span>     <span class="k">def</span> <span class="fm">__setattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<span class="ne">AttributeError</span>: &#39;DataFrame&#39; object has no attribute &#39;show&#39;
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 

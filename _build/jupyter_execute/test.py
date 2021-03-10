@@ -42,3 +42,5 @@ spark = SparkSession.builder.appName("SimpleApp").getOrCreate()
 df = spark.createDataFrame([(1,2),(5,6)],["col1","col2"])
 df.show()
 
+# Twisting & Spinning Data in Apache Spark - Interactive Data Engineer's Guide
+

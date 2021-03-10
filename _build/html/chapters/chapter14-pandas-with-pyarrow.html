@@ -1,0 +1,1861 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chapter 14 : Pandas User Defined Function &#8212; Spark Programming for Data Engineering</title>
+    
+  <link rel="stylesheet" href="../_static/css/index.73d71520a4ca3b99cfee5594769eaaae.css">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="../_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="../_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.40e2e510f6b7d1648584402491bb10fe.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.3da636dd464baa7582d2.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.d31b09fe5c1d09cb49b26a786de4a05d.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe,.cell"
+        const thebe_selector_input = "pre,.cell_input div.highlight"
+        const thebe_selector_output = ".output,.cell_output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://github.com/ngdeepak/testbook/chapters/chapter14-pandas-with-pyarrow.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://github.com/ngdeepak/testbook/chapters/chapter14-pandas-with-pyarrow.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Chapter 14 : Pandas User Defined Function" />
+<meta property="og:description" content="Chapter 14 : Pandas User Defined Function  Chapter Learning Objectives  Various data operations using Pandas User Defined Function.  Chapter Outline  1. Pandas " />
+<meta property="og:image"       content="https://github.com/ngdeepak/testbook/_static/sparklogo.png" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="../index.html">
+  
+  <img src="../_static/sparklogo.png" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Spark Programming for Data Engineering</h1>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../Author.html">
+   About the Author:
+  </a>
+ </li>
+</ul>
+<p class="caption collapsible-parent">
+ <span class="caption-text">
+  Chapters
+ </span>
+</p>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter1-spark-basics.html">
+   Chapter 1: Spark Basics
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter2-dataframe.html">
+   Chapter 2 : DataFrames
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter3-data-sources.html">
+   Chapter 3 : Data Sources
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter4-data-types-schema.html">
+   Chapter 4 : Data Types &amp; Schema
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter5-string-column.html">
+   Chapter 5 : String Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter6-number-column.html">
+   Chapter 6 : Number Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter7-date-column.html">
+   Chapter 7 : Date Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter8-array-column.html">
+   Chapter 8 : Array Columns
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter9-map-column.html">
+   Chapter 9 : Map Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter10-struct-column.html">
+   Chapter 10 : Struct Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter11-json-string-column.html">
+   Chapter 11 : JSON Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter12-null-nan-column.html">
+   Chapter 12 : Null &amp; NaN Column
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter13-user-defined-function.html">
+   Chapter 13 : User Defined Functions(UDFs)
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter14-pandas-with-arrow.html">
+   Chapter 14 : Pandas User Defined Function
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter15-aggregate-operations.html">
+   Chapter 15 : Aggregate Operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter16-join-operations.html">
+   Chapter 16 : Join operations
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chapter17-window-operations.html">
+   Chapter 17 : Window operations
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chapters/chapter14-pandas-with-pyarrow.rst"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/ngdeepak/testbook"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        <a class="issues-button"
+            href="https://github.com/ngdeepak/testbook/issues/new?title=Issue%20on%20page%20%2Fchapters/chapter14-pandas-with-pyarrow.html&body=Your%20issue%20content%20here."><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Open an issue"><i class="fas fa-lightbulb"></i>open issue</button></a>
+        <a class="edit-button" href="https://github.com/ngdeepak/testbook/edit/master/chapters/chapter14-pandas-with-pyarrow.rst"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/ngdeepak/testbook/master?urlpath=tree/chapters/chapter14-pandas-with-pyarrow.rst"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <button type="button" class="btn btn-secondary topbarbtn"
+            onclick="initThebeSBT()" title="Launch Thebe" data-toggle="tooltip" data-placement="left"><i
+                class="fas fa-play"></i><span style="margin-left: .4em;">Live Code</span></button>
+        
+    </div>
+</div>
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-learning-objectives">
+   Chapter Learning Objectives
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#chapter-outline">
+   Chapter Outline
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pandas-user-defined-function">
+   Pandas User Defined Function
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#python-type-hints">
+     Python Type Hints
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#a-pandas-udfs-vectorized-udfs">
+   1a. Pandas UDFs (Vectorized UDFs)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#b-pandas-udf-series-to-series">
+   1b. Pandas UDF: Series to Series
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#c-iterator-of-series-to-iterator-of-series">
+   1c. Iterator of Series to Iterator of Series
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#d-iterator-of-multiple-series-to-iterator-of-series">
+   1d. Iterator of Multiple Series to Iterator of Series
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#e-series-to-scalar">
+   1e. Series to Scalar
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#g-grouped-map">
+   1g. Grouped Map
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#g-map">
+   1g. Map
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#g-co-grouped-map">
+   1g. Co-grouped Map
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="figure align-center" id="banner">
+<img alt="../_images/banner.png" src="../_images/banner.png" />
+</div>
+<div class="section" id="chapter-14-pandas-user-defined-function">
+<h1>Chapter 14 : Pandas User Defined Function<a class="headerlink" href="#chapter-14-pandas-user-defined-function" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="chapter-learning-objectives">
+<h2>Chapter Learning Objectives<a class="headerlink" href="#chapter-learning-objectives" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Various data operations using Pandas User Defined Function.</p></li>
+</ul>
+</div>
+<div class="section" id="chapter-outline">
+<h2>Chapter Outline<a class="headerlink" href="#chapter-outline" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="#1">1. Pandas User Defined Function</a></p>
+<ul>
+<li><p><a class="reference external" href="#2">1a. Pandas UDFs (Vectorized UDFs)</a></p></li>
+<li><p><a class="reference external" href="#3">1b. Pandas UDF: Series to Series </a></p></li>
+<li><p><a class="reference external" href="#4">1c. Pandas UDF: Iterator of Series to Iterator of Series</a></p></li>
+<li><p><a class="reference external" href="#5">1d. Pandas UDF: Iterator of Multiple Series to Iterator of Series</a></p></li>
+<li><p><a class="reference external" href="#6">1e. Pandas UDF: Series to Scalar</a></p></li>
+</ul>
+</li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pyspark</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span> \
+    <span class="o">.</span><span class="n">builder</span> \
+    <span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Python Spark SQL basic example&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">config</span><span class="p">(</span><span class="s2">&quot;spark.some.config.option&quot;</span><span class="p">,</span> <span class="s2">&quot;some-value&quot;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">display_html</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span> 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">def</span> <span class="nf">display_side_by_side</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">html_str</span><span class="o">=</span><span class="s1">&#39;&#39;</span>
+    <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="n">html_str</span><span class="o">+=</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">html_str</span><span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\xa0\xa0\xa0</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">10</span>
+    <span class="n">display_html</span><span class="p">(</span><span class="n">html_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;table&#39;</span><span class="p">,</span><span class="s1">&#39;table style=&quot;display:inline&quot;&#39;</span><span class="p">),</span><span class="n">raw</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">space</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\xa0</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="mi">10</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">panel</span> <span class="k">as</span> <span class="nn">pn</span>
+
+<span class="n">css</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">div.special_table + table, th, td {</span>
+<span class="s2">  border: 3px solid orange;</span>
+<span class="s2">}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">pn</span><span class="o">.</span><span class="n">extension</span><span class="p">(</span><span class="n">raw_css</span><span class="o">=</span><span class="p">[</span><span class="n">css</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<script type="application/javascript">
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  var force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error() {
+      console.error("failed to load " + url);
+    }
+
+    for (var i = 0; i < css_urls.length; i++) {
+      var url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    var skip = [];
+    if (window.requirejs) {
+      require([], function() {
+      })
+    }
+    for (var i = 0; i < js_urls.length; i++) {
+      var url = js_urls[i];
+      if (skip.indexOf(url) >= 0) { on_load(); continue; }
+      var element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error;
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+	if (!js_urls.length) {
+      on_load()
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  var js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-2.2.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.2.3.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.2.3.min.js", "https://unpkg.com/@holoviz/panel@^0.10.3/dist/panel.min.js"];
+  var css_urls = ["https://unpkg.com/@holoviz/panel@0.10.3/dist/css/alerts.css", "https://unpkg.com/@holoviz/panel@0.10.3/dist/css/card.css", "https://unpkg.com/@holoviz/panel@0.10.3/dist/css/widgets.css", "https://unpkg.com/@holoviz/panel@0.10.3/dist/css/markdown.css", "https://unpkg.com/@holoviz/panel@0.10.3/dist/css/json.css", "https://unpkg.com/@holoviz/panel@0.10.3/dist/css/dataframe.css"];
+
+  var inline_js = [
+    function(Bokeh) {
+      inject_raw_css("\ndiv.special_table + table, th, td {\n  border: 3px solid orange;\n}\n");
+    },
+    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+    function(Bokeh) {} // ensure no trailing comma for IE
+  ];
+
+  function run_inline_js() {
+    if ((root.Bokeh !== undefined) || (force === true)) {
+      for (var i = 0; i < inline_js.length; i++) {
+        inline_js[i].call(root, root.Bokeh);
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    }
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));</script><script type="application/javascript">
+if ((window.PyViz === undefined) || (window.PyViz instanceof HTMLElement)) {
+  window.PyViz = {comms: {}, comm_status:{}, kernels:{}, receivers: {}, plot_index: []}
+}
+
+
+    function JupyterCommManager() {
+    }
+
+    JupyterCommManager.prototype.register_target = function(plot_id, comm_id, msg_handler) {
+      if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        comm_manager.register_target(comm_id, function(comm) {
+          comm.on_msg(msg_handler);
+        });
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        window.PyViz.kernels[plot_id].registerCommTarget(comm_id, function(comm) {
+          comm.onMsg = msg_handler;
+        });
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        google.colab.kernel.comms.registerTarget(comm_id, (comm) => {
+          var messages = comm.messages[Symbol.asyncIterator]();
+          function processIteratorResult(result) {
+            var message = result.value;
+            console.log(message)
+            var content = {data: message.data, comm_id};
+            var buffers = []
+            for (var buffer of message.buffers || []) {
+              buffers.push(new DataView(buffer))
+            }
+            var metadata = message.metadata || {};
+            var msg = {content, buffers, metadata}
+            msg_handler(msg);
+            return messages.next().then(processIteratorResult);
+          }
+          return messages.next().then(processIteratorResult);
+        })
+      }
+    }
+
+    JupyterCommManager.prototype.get_client_comm = function(plot_id, comm_id, msg_handler) {
+      if (comm_id in window.PyViz.comms) {
+        return window.PyViz.comms[comm_id];
+      } else if (window.comm_manager || ((window.Jupyter !== undefined) && (Jupyter.notebook.kernel != null))) {
+        var comm_manager = window.comm_manager || Jupyter.notebook.kernel.comm_manager;
+        var comm = comm_manager.new_comm(comm_id, {}, {}, {}, comm_id);
+        if (msg_handler) {
+          comm.on_msg(msg_handler);
+        }
+      } else if ((plot_id in window.PyViz.kernels) && (window.PyViz.kernels[plot_id])) {
+        var comm = window.PyViz.kernels[plot_id].connectToComm(comm_id);
+        comm.open();
+        if (msg_handler) {
+          comm.onMsg = msg_handler;
+        }
+      } else if (typeof google != 'undefined' && google.colab.kernel != null) {
+        var comm_promise = google.colab.kernel.comms.open(comm_id)
+        comm_promise.then((comm) => {
+          window.PyViz.comms[comm_id] = comm;
+          if (msg_handler) {
+            var messages = comm.messages[Symbol.asyncIterator]();
+            function processIteratorResult(result) {
+              var message = result.value;
+              var content = {data: message.data};
+              var metadata = message.metadata || {comm_id};
+              var msg = {content, metadata}
+              msg_handler(msg);
+              return messages.next().then(processIteratorResult);
+            }
+            return messages.next().then(processIteratorResult);
+          }
+        }) 
+        var sendClosure = (data, metadata, buffers, disposeOnDone) => {
+          return comm_promise.then((comm) => {
+            comm.send(data, metadata, buffers, disposeOnDone);
+          });
+        };
+        var comm = {
+          send: sendClosure
+        };
+      }
+      window.PyViz.comms[comm_id] = comm;
+      return comm;
+    }
+    window.PyViz.comm_manager = new JupyterCommManager();
+    
+
+
+var JS_MIME_TYPE = 'application/javascript';
+var HTML_MIME_TYPE = 'text/html';
+var EXEC_MIME_TYPE = 'application/vnd.holoviews_exec.v0+json';
+var CLASS_NAME = 'output';
+
+/**
+ * Render data to the DOM node
+ */
+function render(props, node) {
+  var div = document.createElement("div");
+  var script = document.createElement("script");
+  node.appendChild(div);
+  node.appendChild(script);
+}
+
+/**
+ * Handle when a new output is added
+ */
+function handle_add_output(event, handle) {
+  var output_area = handle.output_area;
+  var output = handle.output;
+  if ((output.data == undefined) || (!output.data.hasOwnProperty(EXEC_MIME_TYPE))) {
+    return
+  }
+  var id = output.metadata[EXEC_MIME_TYPE]["id"];
+  var toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+  if (id !== undefined) {
+    var nchildren = toinsert.length;
+    var html_node = toinsert[nchildren-1].children[0];
+    html_node.innerHTML = output.data[HTML_MIME_TYPE];
+    var scripts = [];
+    var nodelist = html_node.querySelectorAll("script");
+    for (var i in nodelist) {
+      if (nodelist.hasOwnProperty(i)) {
+        scripts.push(nodelist[i])
+      }
+    }
+
+    scripts.forEach( function (oldScript) {
+      var newScript = document.createElement("script");
+      var attrs = [];
+      var nodemap = oldScript.attributes;
+      for (var j in nodemap) {
+        if (nodemap.hasOwnProperty(j)) {
+          attrs.push(nodemap[j])
+        }
+      }
+      attrs.forEach(function(attr) { newScript.setAttribute(attr.name, attr.value) });
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+      oldScript.parentNode.replaceChild(newScript, oldScript);
+    });
+    if (JS_MIME_TYPE in output.data) {
+      toinsert[nchildren-1].children[1].textContent = output.data[JS_MIME_TYPE];
+    }
+    output_area._hv_plot_id = id;
+    if ((window.Bokeh !== undefined) && (id in Bokeh.index)) {
+      window.PyViz.plot_index[id] = Bokeh.index[id];
+    } else {
+      window.PyViz.plot_index[id] = null;
+    }
+  } else if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+    var bk_div = document.createElement("div");
+    bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+    var script_attrs = bk_div.children[0].attributes;
+    for (var i = 0; i < script_attrs.length; i++) {
+      toinsert[toinsert.length - 1].childNodes[1].setAttribute(script_attrs[i].name, script_attrs[i].value);
+    }
+    // store reference to server id on output_area
+    output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+  }
+}
+
+/**
+ * Handle when an output is cleared or removed
+ */
+function handle_clear_output(event, handle) {
+  var id = handle.cell.output_area._hv_plot_id;
+  var server_id = handle.cell.output_area._bokeh_server_id;
+  if (((id === undefined) || !(id in PyViz.plot_index)) && (server_id !== undefined)) { return; }
+  var comm = window.PyViz.comm_manager.get_client_comm("hv-extension-comm", "hv-extension-comm", function () {});
+  if (server_id !== null) {
+    comm.send({event_type: 'server_delete', 'id': server_id});
+    return;
+  } else if (comm !== null) {
+    comm.send({event_type: 'delete', 'id': id});
+  }
+  delete PyViz.plot_index[id];
+  if ((window.Bokeh !== undefined) & (id in window.Bokeh.index)) {
+    var doc = window.Bokeh.index[id].model.document
+    doc.clear();
+    const i = window.Bokeh.documents.indexOf(doc);
+    if (i > -1) {
+      window.Bokeh.documents.splice(i, 1);
+    }
+  }
+}
+
+/**
+ * Handle kernel restart event
+ */
+function handle_kernel_cleanup(event, handle) {
+  delete PyViz.comms["hv-extension-comm"];
+  window.PyViz.plot_index = {}
+}
+
+/**
+ * Handle update_display_data messages
+ */
+function handle_update_output(event, handle) {
+  handle_clear_output(event, {cell: {output_area: handle.output_area}})
+  handle_add_output(event, handle)
+}
+
+function register_renderer(events, OutputArea) {
+  function append_mime(data, metadata, element) {
+    // create a DOM node to render to
+    var toinsert = this.create_output_subarea(
+    metadata,
+    CLASS_NAME,
+    EXEC_MIME_TYPE
+    );
+    this.keyboard_manager.register_events(toinsert);
+    // Render to node
+    var props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+    render(props, toinsert[0]);
+    element.append(toinsert);
+    return toinsert
+  }
+
+  events.on('output_added.OutputArea', handle_add_output);
+  events.on('output_updated.OutputArea', handle_update_output);
+  events.on('clear_output.CodeCell', handle_clear_output);
+  events.on('delete.Cell', handle_clear_output);
+  events.on('kernel_ready.Kernel', handle_kernel_cleanup);
+
+  OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+    safe: true,
+    index: 0
+  });
+}
+
+if (window.Jupyter !== undefined) {
+  try {
+    var events = require('base/js/events');
+    var OutputArea = require('notebook/js/outputarea').OutputArea;
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  } catch(err) {
+  }
+}
+</script></div>
+</div>
+<p><a id='1'></a></p>
+<p><a id='1'></a></p>
+</div>
+<div class="section" id="pandas-user-defined-function">
+<h2>Pandas User Defined Function<a class="headerlink" href="#pandas-user-defined-function" title="Permalink to this headline">¶</a></h2>
+<p>A pandas user-defined function (UDF)—also known as vectorized UDF—is a user-defined function that uses Apache Arrow to transfer data and pandas to work with the data. pandas UDFs allow vectorized operations that can increase performance up to 100x compared to row-at-a-time Python UDFs.</p>
+<p>Pandas is well known to data scientists and has seamless integrations with many Python libraries and packages such as NumPy, statsmodel, and scikit-learn, and Pandas UDFs allow data scientists not only to scale out their workloads, but also to leverage the Pandas APIs in Apache Spark.</p>
+<p>The user-defined functions are executed by:</p>
+<p>Apache Arrow, to exchange data directly between JVM and Python driver/executors with near-zero (de)serialization cost.
+Pandas inside the function, to work with Pandas instances and APIs.
+The Pandas UDFs work with Pandas APIs inside the function and Apache Arrow for exchanging data. It allows vectorized operations that can increase performance up to 100x, compared to row-at-a-time Python UDF</p>
+<div class="section" id="python-type-hints">
+<h3>Python Type Hints<a class="headerlink" href="#python-type-hints" title="Permalink to this headline">¶</a></h3>
+<p>Python type hints were officially introduced in PEP 484 with Python 3.5. Type hinting is an official way to statically indicate the type of a value in Python. See the example below.</p>
+<p>def greeting(name: str) -&gt; str:
+return ‘Hello ‘ + name
+The name: strindicates the name argument is of str type and the -&gt; syntax indicates the greeting() function returns a string.</p>
+<p>Python type hints bring two significant benefits to the PySpark and Pandas UDF context.</p>
+<p>It gives a clear definition of what the function is supposed to do, making it easier for users to understand the code. For example, unless it is documented, users cannot know if greeting can take None or not if there is no type hint. It can avoid the need to document such subtle cases with a bunch of test cases and/or for users to test and figure out by themselves.
+It can make it easier to perform static analysis. IDEs such as PyCharm and Visual Studio Code can leverage type annotations to provide code completion, show errors, and support better go-to-definition functionality.</p>
+<p>There are currently four supported cases of the Python type hints in Pandas UDFs:</p>
+<ul class="simple">
+<li><p>Series to Series</p></li>
+<li><p>Iterator of Series to Iterator of Series</p></li>
+<li><p>Iterator of Multiple Series to Iterator of Series</p></li>
+<li><p>Series to Scalar (a single value)</p></li>
+</ul>
+<p>Before we do a deep dive into each case, let’s look at three key points about working with the new Pandas UDFs.</p>
+<p>Although Python type hints are optional in the Python world in general, you must specify Python type hints for the input and output in order to use the new Pandas UDFs.</p>
+<p>The type hint should use pandas.Series in all cases. However, there is one variant in which pandas.DataFrame should be used for its input or output type hint instead: when the input or output column is of StructType.Take a look at the example below:</p>
+<p><a id='2'></a></p>
+<div class="figure align-center">
+<img alt="../_images/15.png" src="../_images/15.png" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="c1"># Enable Arrow-based columnar data transfers</span>
+<span class="n">spark</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;spark.sql.execution.arrow.pyspark.enabled&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">)</span>
+
+<span class="c1"># Generate a Pandas DataFrame</span>
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="c1"># Create a Spark DataFrame from a Pandas DataFrame using Arrow</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span>
+
+<span class="c1"># Convert the Spark DataFrame back to a Pandas DataFrame using Arrow</span>
+<span class="n">result_pdf</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;*&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Pandas DataFrame result statistics:</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">result_pdf</span><span class="o">.</span><span class="n">describe</span><span class="p">()))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pandas DataFrame result statistics:
+                0           1           2
+count  100.000000  100.000000  100.000000
+mean     0.457087    0.475815    0.503573
+std      0.296585    0.286262    0.284345
+min      0.003486    0.002197    0.002331
+25%      0.178717    0.230999    0.244078
+50%      0.506690    0.496991    0.514602
+75%      0.678728    0.688817    0.759227
+max      0.977672    0.995948    0.995799
+</pre></div>
+</div>
+</div>
+</div>
+<ul class="simple">
+<li><p>Using the above optimizations with Arrow will produce the same results as when Arrow is not enabled.</p></li>
+<li><p>Note that even with Arrow, toPandas() results in the collection of all records in the DataFrame to the driver program and should be done on a small subset of the data.</p></li>
+<li><p>Not all Spark data types are currently supported and an error can be raised if a column has an unsupported type, see Supported SQL Types. If an error occurs during createDataFrame(), Spark will fall back to create the DataFrame without Arrow.</p></li>
+<li><p>Supported SQL Types</p>
+<ul>
+<li><p>Currently, all Spark SQL data types are supported by Arrow-based conversion except MapType, ArrayType of TimestampType, and nested StructType.</p></li>
+</ul>
+</li>
+</ul>
+<p><a id='3'></a></p>
+</div>
+</div>
+<div class="section" id="a-pandas-udfs-vectorized-udfs">
+<h2>1a. Pandas UDFs (Vectorized UDFs)<a class="headerlink" href="#a-pandas-udfs-vectorized-udfs" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/16.png" src="../_images/16.png" />
+</div>
+<ul class="simple">
+<li><p>Pandas UDFs are user defined functions that are executed by Spark using Arrow to transfer data to perform  vectorized operations.</p></li>
+<li><p>A Pandas UDF is defined using the pandas_udf as a decorator.</p></li>
+<li><p>Pandas UDFs used to be defined with Python type hints.</p></li>
+<li><p>Note that the type hint should use pandas.Series in all cases but there is one variant that pandas.DataFrame should be used for its input or output type hint instead when the input or output column is of StructType.</p></li>
+<li><p>The following example shows a Pandas UDF which takes long column, string column and struct column, and outputs a struct column. It requires the function to specify the type hints of pandas.Series and pandas.DataFrame as below:</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span>
+
+<span class="nd">@pandas_udf</span><span class="p">(</span><span class="s2">&quot;city string, col2 long&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">s1</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">s2</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">s3</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">s3</span><span class="p">[</span><span class="s1">&#39;col2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="n">s2</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">len</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">s3</span>
+
+<span class="c1"># Create a Spark DataFrame that has three columns including a sturct column.</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;tony&quot;</span><span class="p">,</span> <span class="p">(</span><span class="s2">&quot;seattle&quot;</span><span class="p">,)]],</span>
+    <span class="s2">&quot;id long, name string, city_struct struct&lt;city:string&gt;&quot;</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">df_pandas</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">func</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;city_struct&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="s2">&quot;pandas_udf&quot;</span><span class="p">))</span>
+<span class="n">df_pandas</span><span class="o">.</span><span class="n">printSchema</span><span class="p">()</span>
+<span class="n">df_pandas</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span><span class="c1">#show()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city_struct: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---+----+-----------+
+| id|name|city_struct|
++---+----+-----------+
+|  1|tony|  [seattle]|
++---+----+-----------+
+
+root
+ |-- pandas_udf: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+ |    |-- col2: long (nullable = true)
+</pre></div>
+</div>
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>pandas_udf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>{'city': 'seattle', 'col2': 5}</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p><b> Summary:</b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_pandas</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>name</th>
+      <th>city_struct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>tony</td>
+      <td>{'city': 'seattle'}</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>pandas_udf</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{'city': 'seattle', 'col2': 5}</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display_html</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">())</span>   
+<span class="n">display_html</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">printSchema</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city_struct: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+
+root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city_struct: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var1</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">_jdf</span><span class="o">.</span><span class="n">schema</span><span class="p">()</span><span class="o">.</span><span class="n">treeString</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span><span class="n">end</span> <span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">var1</span><span class="p">),</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city_struct: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+root
+ |-- id: long (nullable = true)
+ |-- name: string (nullable = true)
+ |-- city_struct: struct (nullable = true)
+ |    |-- city: string (nullable = true)
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(None,)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="b-pandas-udf-series-to-series">
+<h2>1b. Pandas UDF: Series to Series<a class="headerlink" href="#b-pandas-udf-series-to-series" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/25.png" src="../_images/25.png" />
+</div>
+<p><a id='4'></a></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">pandas_udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.types</span> <span class="kn">import</span> <span class="n">LongType</span>
+
+<span class="c1"># Declare the function and create the UDF</span>
+<span class="k">def</span> <span class="nf">multiply_func</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+
+<span class="n">multiply</span> <span class="o">=</span> <span class="n">pandas_udf</span><span class="p">(</span><span class="n">multiply_func</span><span class="p">,</span> <span class="n">returnType</span><span class="o">=</span><span class="n">LongType</span><span class="p">())</span>
+
+<span class="c1"># The function for a pandas_udf should be able to execute with local Pandas data</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">multiply_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">))</span>
+<span class="c1"># 0    1</span>
+<span class="c1"># 1    4</span>
+<span class="c1"># 2    9</span>
+<span class="c1"># dtype: int64</span>
+
+<span class="c1"># Create a Spark DataFrame, &#39;spark&#39; is an existing SparkSession</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]))</span>
+
+<span class="c1"># Execute function as a Spark vectorized UDF</span>
+<span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">multiply</span><span class="p">(</span><span class="n">col</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="n">col</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="c1"># +-------------------+</span>
+<span class="c1"># |multiply_func(x, x)|</span>
+<span class="c1"># +-------------------+</span>
+<span class="c1"># |                  1|</span>
+<span class="c1"># |                  4|</span>
+<span class="c1"># |                  9|</span>
+<span class="c1"># +-------------------+</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0    1
+1    4
+2    9
+dtype: int64
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-------------------+
+|multiply_func(x, x)|
++-------------------+
+|                  1|
+|                  4|
+|                  9|
++-------------------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><a id='5'></a></p>
+</div>
+<div class="section" id="c-iterator-of-series-to-iterator-of-series">
+<h2>1c. Iterator of Series to Iterator of Series<a class="headerlink" href="#c-iterator-of-series-to-iterator-of-series" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/35.png" src="../_images/35.png" />
+</div>
+<p>An iterator UDF is the same as a scalar pandas UDF except:</p>
+<p>The Python function</p>
+<ul class="simple">
+<li><p>Takes an iterator of batches instead of a single input batch as input.</p></li>
+<li><p>Returns an iterator of output batches instead of a single output batch.</p></li>
+<li><p>The length of the entire output in the iterator should be the same as the length of the entire input.</p></li>
+<li><p>The wrapped pandas UDF takes a single Spark column as an input.</p></li>
+<li><p>You should specify the Python type hint as Iterator[pandas.Series] -&gt; Iterator[pandas.Series].</p></li>
+<li><p>This pandas UDF is useful when the UDF execution requires initializing some state, for example, loading a machine learning model file to apply inference to every input batch.</p></li>
+</ul>
+<p>The following example shows how to create a pandas UDF with iterator support.</p>
+<div class="figure align-center">
+<img alt="chapters/img/chapter9/1d.png" src="chapters/img/chapter9/1d.png" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span>
+
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">var_bc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">calculate_complex</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span><span class="n">var2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">var1</span><span class="o">+</span><span class="n">var2</span><span class="o">+</span><span class="n">var1</span><span class="o">*</span><span class="n">var2</span>
+
+<span class="c1"># Declare the function and create the UDF</span>
+<span class="nd">@pandas_udf</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">plus_one</span><span class="p">(</span><span class="n">iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">var_bc</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">calculate_complex</span><span class="p">(</span><span class="n">x</span> <span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+
+<span class="n">df_out</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">plus_one</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">))</span>
+<span class="n">df_out</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---+
+|  x|
++---+
+|  1|
+|  2|
+|  3|
++---+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+-----------+
+|plus_one(x)|
++-----------+
+|        201|
+|        302|
+|        403|
++-----------+
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_out</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>x</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>plus_one(x)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>201</td>
+    </tr>
+    <tr>
+      <td>302</td>
+    </tr>
+    <tr>
+      <td>403</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='6'></a></p>
+</div>
+<div class="section" id="d-iterator-of-multiple-series-to-iterator-of-series">
+<h2>1d. Iterator of Multiple Series to Iterator of Series<a class="headerlink" href="#d-iterator-of-multiple-series-to-iterator-of-series" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/45.png" src="../_images/45.png" />
+</div>
+<ul class="simple">
+<li><p>An Iterator of multiple Series to Iterator of Series UDF has similar characteristics and restrictions as Iterator of Series to Iterator of Series UDF.</p></li>
+<li><p>The specified function takes an iterator of batches and outputs an iterator of batches.</p></li>
+<li><p>It is also useful when the UDF execution requires initializing some state.</p></li>
+</ul>
+<p>The differences are:</p>
+<ul class="simple">
+<li><p>The underlying Python function takes an iterator of a tuple of pandas Series.</p></li>
+<li><p>The wrapped pandas UDF takes multiple Spark columns as an input.</p></li>
+</ul>
+<div class="figure align-center">
+<img alt="chapters/img/chapter9/1e.png" src="chapters/img/chapter9/1e.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.functions.array_sort(col)</b></p>
+<p>sorts the input array in ascending order. The elements of the input array must be orderable. Null elements will be placed at the end of the returned array.</p>
+<p><b>Parameters</b></p>
+<ul class="simple">
+<li><p>col – name of column or expression
+‘’’</p></li>
+</ul>
+</div>
+<p><b>Input:  Spark data frame with map column </b></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span>
+
+<span class="n">pdf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,),(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,),(</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">)],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span><span class="s2">&quot;height&quot;</span><span class="p">])</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span>
+
+
+<span class="n">var_bc</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">sparkContext</span><span class="o">.</span><span class="n">broadcast</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">calculate_complex_mul</span><span class="p">(</span><span class="n">var1</span><span class="p">,</span><span class="n">var2</span><span class="p">,</span><span class="n">var3</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">var1</span><span class="o">+</span><span class="n">var2</span><span class="o">+</span><span class="n">var3</span>
+
+
+<span class="c1"># # Declare the function and create the UDF</span>
+<span class="nd">@pandas_udf</span><span class="p">(</span><span class="s2">&quot;long&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">run_ml_model</span><span class="p">(</span><span class="n">iterator</span><span class="p">:</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>  <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">]:</span>
+    <span class="n">var</span> <span class="o">=</span> <span class="n">var_bc</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">calculate_complex_mul</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">var</span><span class="p">)</span>
+
+<span class="n">df_out_mul</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">run_ml_model</span><span class="p">(</span><span class="s2">&quot;weight&quot;</span><span class="p">,</span> <span class="s2">&quot;height&quot;</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_out_mul</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>weight</th>
+      <th>height</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>6</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>run_ml_model(weight, height)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>16</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='7'></a></p>
+</div>
+<div class="section" id="e-series-to-scalar">
+<h2>1e. Series to Scalar<a class="headerlink" href="#e-series-to-scalar" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<img alt="../_images/16.png" src="../_images/16.png" />
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">Window</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)],</span>
+    <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">))</span>
+
+<span class="c1"># Declare the function and create the UDF</span>
+<span class="nd">@pandas_udf</span><span class="p">(</span><span class="s2">&quot;double&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">mean_udf</span><span class="p">(</span><span class="n">v</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">df_sca</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">mean_udf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_sca</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>v</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>mean_udf(v)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4.2</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="n">mean_udf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">]))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">w</span> <span class="o">=</span> <span class="n">Window</span> \
+    <span class="o">.</span><span class="n">partitionBy</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">)</span> \
+    <span class="o">.</span><span class="n">rowsBetween</span><span class="p">(</span><span class="n">Window</span><span class="o">.</span><span class="n">unboundedPreceding</span><span class="p">,</span> <span class="n">Window</span><span class="o">.</span><span class="n">unboundedFollowing</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="s1">&#39;mean_v&#39;</span><span class="p">,</span> <span class="n">mean_udf</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;v&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">over</span><span class="p">(</span><span class="n">w</span><span class="p">))</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---+-----------+
+| id|mean_udf(v)|
++---+-----------+
+|  1|        1.5|
+|  2|        6.0|
++---+-----------+
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>+---+----+------+
+| id|   v|mean_v|
++---+----+------+
+|  1| 1.0|   1.5|
+|  1| 2.0|   1.5|
+|  2| 3.0|   6.0|
+|  2| 5.0|   6.0|
+|  2|10.0|   6.0|
++---+----+------+
+</pre></div>
+</div>
+</div>
+</div>
+<p><a id='8'></a></p>
+</div>
+<div class="section" id="g-grouped-map">
+<h2>1g. Grouped Map<a class="headerlink" href="#g-grouped-map" title="Permalink to this headline">¶</a></h2>
+<p>Grouped map operations with Pandas instances are supported by DataFrame.groupby().applyInPandas() which requires a Python function that takes a pandas.DataFrame and return another pandas.DataFrame. It maps each group to each pandas.DataFrame in the Python function.</p>
+<p>This API implements the “split-apply-combine” pattern which consists of three steps:</p>
+<ul class="simple">
+<li><p>Split the data into groups by using DataFrame.groupBy.</p></li>
+<li><p>Apply a function on each group. The input and output of the function are both pandas.DataFrame. The input data - contains all the rows and columns for each group.</p></li>
+<li><p>Combine the results into a new PySpark DataFrame.</p></li>
+</ul>
+<p>To use groupBy().applyInPandas(), the user needs to define the following:</p>
+<p>A Python function that defines the computation for each group.
+A StructType object or a string that defines the schema of the output PySpark DataFrame.
+The column labels of the returned pandas.DataFrame must either match the field names in the defined output schema if specified as strings, or match the field data types by position if not strings, e.g. integer indices. See pandas.DataFrame on how to label columns when constructing a pandas.DataFrame.</p>
+<p>Note that all data for a group will be loaded into memory before the function is applied. This can lead to out of memory exceptions, especially if the group sizes are skewed. The configuration for maxRecordsPerBatch is not applied on groups and it is up to the user to ensure that the grouped data will fit into the available memory.</p>
+<p>The following example shows how to use groupby().applyInPandas() to subtract the mean from each value in the group.</p>
+<p>Setting Arrow Batch Size</p>
+<p>Data partitions in Spark are converted into Arrow record batches, which can temporarily lead to high memory usage in the JVM. To avoid possible out of memory exceptions, the size of the Arrow record batches can be adjusted by setting the conf “spark.sql.execution.arrow.maxRecordsPerBatch” to an integer that will determine the maximum number of rows for each batch. The default value is 10,000 records per batch. If the number of columns is large, the value should be adjusted accordingly. Using this limit, each data partition will be made into 1 or more record batches for processing.</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.GroupedData.applyInPandas(func, schema)</b></p>
+<p>Maps each group of the current DataFrame using a pandas udf and returns the result as a DataFrame.</p>
+<p>The function should take a pandas.DataFrame and return another pandas.DataFrame. For each group, all columns are passed together as a pandas.DataFrame to the user-function and the returned pandas.DataFrame are combined as a DataFrame.</p>
+<p>The schema should be a StructType describing the schema of the returned pandas.DataFrame. The column labels of the returned pandas.DataFrame must either match the field names in the defined schema if specified as strings, or match the field data types by position if not strings, e.g. integer indices. The length of the returned pandas.DataFrame can be arbitrary.</p>
+<p><b>Parameters</b></p>
+<ul class="simple">
+<li><p>func – a Python native function that takes a pandas.DataFrame, and outputs a pandas.DataFrame.</p></li>
+<li><p>schema – the return type of the func in PySpark. The value can be either a pyspark.sql.types.DataType object or a DDL-formatted type string.</p></li>
+</ul>
+<p>‘’’</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">)],</span>
+    <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">subtract_mean</span><span class="p">(</span><span class="n">pdf</span><span class="p">):</span>
+    <span class="c1"># pdf is a pandas.DataFrame</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">v</span>
+    <span class="k">return</span> <span class="n">pdf</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">v</span><span class="o">=</span><span class="n">v</span> <span class="o">-</span> <span class="n">v</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="n">df_group_pandas</span>  <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">applyInPandas</span><span class="p">(</span><span class="n">subtract_mean</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;id long, v double&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_group_pandas</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>v</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>10.0</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>v</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>-0.5</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0.5</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-3.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>-1.0</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='8'></a></p>
+</div>
+<div class="section" id="g-map">
+<h2>1g. Map<a class="headerlink" href="#g-map" title="Permalink to this headline">¶</a></h2>
+<p>Map operations with Pandas instances are supported by DataFrame.mapInPandas() which maps an iterator of pandas.DataFrames to another iterator of pandas.DataFrames that represents the current PySpark DataFrame and returns the result as a PySpark DataFrame.</p>
+<p>The functions takes and outputs an iterator of pandas.DataFrame.</p>
+<p>It can return the output of arbitrary length in contrast to some Pandas UDFs although internally it works similarly with Series to Series Pandas UDF.</p>
+<p>The following example shows how to use mapInPandas():</p>
+<div class="figure align-center">
+<img alt="chapters/img/chapter9/1g.png" src="chapters/img/chapter9/1g.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.DataFrame.mapInPandas(func, schema)</b></p>
+<p>Maps an iterator of batches in the current DataFrame using a Python native function that takes and outputs a pandas DataFrame, and returns the result as a DataFrame.</p>
+<p>The function should take an iterator of pandas.DataFrames and return another iterator of pandas.DataFrames. All columns are passed together as an iterator of pandas.DataFrames to the function and the returned iterator of pandas.DataFrames are combined as a DataFrame. Each pandas.DataFrame size can be controlled by spark.sql.execution.arrow.maxRecordsPerBatch.</p>
+<p><b>Parameters</b></p>
+<ul class="simple">
+<li><p>func – a Python native function that takes an iterator of pandas.DataFrames, and outputs an iterator of pandas.DataFrames.</p></li>
+<li><p>schema – the return type of the func in PySpark. The value can be either a pyspark.sql.types.DataType object or a    DDL-formatted type string.</p></li>
+</ul>
+<p>Maps an iterator of batches in the current DataFrame using a Python native function that takes and outputs a pandas DataFrame, and returns the result as a DataFrame.</p>
+<p>The function should take an iterator of pandas.DataFrames and return another iterator of pandas.DataFrames. All columns are passed together as an iterator of pandas.DataFrames to the function and the returned iterator of pandas.DataFrames are combined as a DataFrame. Each pandas.DataFrame size can be controlled by spark.sql.execution.arrow.maxRecordsPerBatch.</p>
+<p>Parameters
+func – a Python native function that takes an iterator of pandas.DataFrames, and outputs an iterator of pandas.DataFrames.
+schema – the return type of the func in PySpark. The value can be either a pyspark.sql.types.DataType object or a DDL-formatted type string.</p>
+<p>‘’’</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">([(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">21</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">30</span><span class="p">)],</span> <span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">filter_func</span><span class="p">(</span><span class="n">iterator</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">pdf</span> <span class="ow">in</span> <span class="n">iterator</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">pdf</span><span class="p">[</span><span class="n">pdf</span><span class="o">.</span><span class="n">id</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
+
+<span class="n">df_mapin</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">mapInPandas</span><span class="p">(</span><span class="n">filter_func</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Input                     &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df_mapin</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Input                      Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>21</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>30</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>id</th>
+      <th>age</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>21</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='8'></a></p>
+</div>
+<div class="section" id="g-co-grouped-map">
+<h2>1g. Co-grouped Map<a class="headerlink" href="#g-co-grouped-map" title="Permalink to this headline">¶</a></h2>
+<p>Co-grouped map operations with Pandas instances are supported by DataFrame.groupby().cogroup().applyInPandas() which allows two PySpark DataFrames to be cogrouped by a common key and then a Python function applied to each cogroup.</p>
+<p>It consists of the following steps:</p>
+<ul class="simple">
+<li><p>Shuffle the data such that the groups of each dataframe which share a key are cogrouped together.</p></li>
+<li><p>Apply a function to each cogroup. The input of the function is two pandas.DataFrame (with an optional tuple representing the key). The output of the function is a pandas.DataFrame.</p></li>
+<li><p>Combine the pandas.DataFrames from all groups into a new PySpark DataFrame.</p></li>
+</ul>
+<p>To use groupBy().cogroup().applyInPandas(), the user needs to define the following:</p>
+<p>A Python function that defines the computation for each cogroup.</p>
+<p>A StructType object or a string that defines the schema of the output PySpark DataFrame.</p>
+<p>The column labels of the returned pandas.DataFrame must either match the field names in the defined output schema if specified as strings, or match the field data types by position if not strings, e.g. integer indices. See pandas.DataFrame on how to label columns when constructing a pandas.DataFrame.</p>
+<p>Note that all data for a cogroup will be loaded into memory before the function is applied. This can lead to out of memory exceptions, especially if the group sizes are skewed. The configuration for maxRecordsPerBatch is not applied and it is up to the user to ensure that the cogrouped data will fit into the available memory.</p>
+<div class="figure align-center">
+<img alt="chapters/img/chapter9/1g.png" src="chapters/img/chapter9/1g.png" />
+</div>
+<p>Lets first understand the syntax</p>
+<div class="admonition-syntax admonition">
+<p class="admonition-title">Syntax</p>
+<p><b>pyspark.sql.PandasCogroupedOps(gd1, gd2)</b></p>
+<p>Applies a function to each cogroup using pandas and returns the result as a DataFrame.</p>
+<p>The function should take two pandas.DataFrames and return another pandas.DataFrame.</p>
+<p>For each side of the cogroup, all columns are passed together as a pandas.DataFrame to the user-function and the returned pandas.DataFrame are combined as a DataFrame.</p>
+<p>The schema should be a StructType describing the schema of the returned pandas.DataFrame.
+The column labels of the returned pandas.DataFrame must either match the field names in the defined schema if specified as strings, or match the field data types by position if not strings, e.g. integer indices. The length of the returned pandas.DataFrame can be arbitrary.</p>
+<p><b>Parameters</b></p>
+<ul class="simple">
+<li><p>func – a Python native function that takes two pandas.DataFrames, and outputs a pandas.DataFrame, or that takes one tuple (grouping keys) and two pandas DataFrame<code class="docutils literal notranslate"><span class="pre">s,</span> <span class="pre">and</span> <span class="pre">outputs</span> <span class="pre">a</span> <span class="pre">pandas</span> </code>DataFrame.</p></li>
+<li><p>schema – the return type of the func in PySpark. The value can be either a pyspark.sql.types.DataType object or a DDL-formatted type string.
+‘’’</p></li>
+</ul>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+<span class="n">df1</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">20000101</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">20000101</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">20000102</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="p">(</span><span class="mi">20000102</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">)],</span>
+    <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;v1&quot;</span><span class="p">))</span>
+
+<span class="n">df2</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span>
+    <span class="p">[(</span><span class="mi">20000101</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="p">(</span><span class="mi">20000101</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)],</span>
+    <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;id&quot;</span><span class="p">,</span> <span class="s2">&quot;v2&quot;</span><span class="p">))</span>
+
+<span class="k">def</span> <span class="nf">asof_join</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge_asof</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+
+<span class="n">df_out</span> <span class="o">=</span> <span class="n">df1</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">cogroup</span><span class="p">(</span><span class="n">df2</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">applyInPandas</span><span class="p">(</span>
+    <span class="n">asof_join</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="s2">&quot;time int, id int, v1 double, v2 string&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;                     Input                                &quot;</span><span class="p">,</span>            <span class="s2">&quot;Output&quot;</span><span class="p">)</span>
+<span class="n">display_side_by_side</span><span class="p">(</span><span class="n">df1</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span><span class="n">df2</span><span class="o">.</span><span class="n">toPandas</span><span class="p">(),</span> <span class="n">df_out</span><span class="o">.</span><span class="n">toPandas</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>                     Input                                 Output
+</pre></div>
+</div>
+<div class="output text_html"><table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>time</th>
+      <th>id</th>
+      <th>v1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20000101</td>
+      <td>1</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <td>20000101</td>
+      <td>2</td>
+      <td>2.0</td>
+    </tr>
+    <tr>
+      <td>20000102</td>
+      <td>1</td>
+      <td>3.0</td>
+    </tr>
+    <tr>
+      <td>20000102</td>
+      <td>2</td>
+      <td>4.0</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>time</th>
+      <th>id</th>
+      <th>v2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20000101</td>
+      <td>1</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>20000101</td>
+      <td>2</td>
+      <td>y</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              <table style="display:inline" border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>time</th>
+      <th>id</th>
+      <th>v1</th>
+      <th>v2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>20000101</td>
+      <td>1</td>
+      <td>1.0</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>20000102</td>
+      <td>1</td>
+      <td>3.0</td>
+      <td>x</td>
+    </tr>
+    <tr>
+      <td>20000101</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>y</td>
+    </tr>
+    <tr>
+      <td>20000102</td>
+      <td>2</td>
+      <td>4.0</td>
+      <td>y</td>
+    </tr>
+  </tbody>
+</table style="display:inline">                              </div></div>
+</div>
+<p><a id='9'></a></p>
+<p><a id='9'></a></p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "ngdeepak/testbook",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./chapters"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Deepak Gowda<br/>
+        
+            &copy; Copyright 2020.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="../_static/js/index.3da636dd464baa7582d2.js"></script>
+
+
+    
+  </body>
+</html>

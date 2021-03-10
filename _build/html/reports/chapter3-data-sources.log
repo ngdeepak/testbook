@@ -1,0 +1,77 @@
+Traceback (most recent call last):
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/jupyter_cache/executors/utils.py", line 51, in single_nb_execution
+    executenb(
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 1087, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/util.py", line 74, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/util.py", line 53, in just_run
+    return loop.run_until_complete(coro)
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/asyncio/base_events.py", line 616, in run_until_complete
+    return future.result()
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 540, in async_execute
+    await self.async_execute_cell(
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 832, in async_execute_cell
+    self._check_raise_for_error(cell, exec_reply)
+  File "/Users/deepak/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/nbclient/client.py", line 740, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply['content'])
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+#./bin/spark-submit --packages org.apache.spark:spark-avro_2.12:3.0.2 ...
+import pyspark
+from pyspark.sql import SparkSession
+spark = SparkSession \
+    .builder \
+    .appName("Python Spark SQL basic example") \
+    .config('spark.jars.packages', 'org.apache.spark:spark-avro_2.12:3.0.2 ...')\
+    .getOrCreate()
+spark.createDataFrame([("John",180,True, 1.7, "1960-01-01", '{“home”: 123456789, “office”:234567567}'),]).show(1,False)        
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mException[0m                                 Traceback (most recent call last)
+[0;32m<ipython-input-1-e0ca27d0b5fd>[0m in [0;36m<module>[0;34m[0m
+[1;32m      2[0m [0;32mimport[0m [0mpyspark[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;32mfrom[0m [0mpyspark[0m[0;34m.[0m[0msql[0m [0;32mimport[0m [0mSparkSession[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 4[0;31m [0mspark[0m [0;34m=[0m [0mSparkSession[0m[0;31m [0m[0;31m\[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      5[0m     [0;34m.[0m[0mbuilder[0m[0;31m [0m[0;31m\[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      6[0m     [0;34m.[0m[0mappName[0m[0;34m([0m[0;34m"Python Spark SQL basic example"[0m[0;34m)[0m[0;31m [0m[0;31m\[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/sql/session.py[0m in [0;36mgetOrCreate[0;34m(self)[0m
+[1;32m    184[0m                             [0msparkConf[0m[0;34m.[0m[0mset[0m[0;34m([0m[0mkey[0m[0;34m,[0m [0mvalue[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    185[0m                         [0;31m# This SparkContext may be an existing one.[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 186[0;31m                         [0msc[0m [0;34m=[0m [0mSparkContext[0m[0;34m.[0m[0mgetOrCreate[0m[0;34m([0m[0msparkConf[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    187[0m                     [0;31m# Do not update `SparkConf` for existing `SparkContext`, as it's shared[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    188[0m                     [0;31m# by all sessions.[0m[0;34m[0m[0;34m[0m[0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/context.py[0m in [0;36mgetOrCreate[0;34m(cls, conf)[0m
+[1;32m    374[0m         [0;32mwith[0m [0mSparkContext[0m[0;34m.[0m[0m_lock[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    375[0m             [0;32mif[0m [0mSparkContext[0m[0;34m.[0m[0m_active_spark_context[0m [0;32mis[0m [0;32mNone[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 376[0;31m                 [0mSparkContext[0m[0;34m([0m[0mconf[0m[0;34m=[0m[0mconf[0m [0;32mor[0m [0mSparkConf[0m[0;34m([0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    377[0m             [0;32mreturn[0m [0mSparkContext[0m[0;34m.[0m[0m_active_spark_context[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    378[0m [0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/context.py[0m in [0;36m__init__[0;34m(self, master, appName, sparkHome, pyFiles, environment, batchSize, serializer, conf, gateway, jsc, profiler_cls)[0m
+[1;32m    131[0m                 " is not allowed as it is a security risk.")
+[1;32m    132[0m [0;34m[0m[0m
+[0;32m--> 133[0;31m         [0mSparkContext[0m[0;34m.[0m[0m_ensure_initialized[0m[0;34m([0m[0mself[0m[0;34m,[0m [0mgateway[0m[0;34m=[0m[0mgateway[0m[0;34m,[0m [0mconf[0m[0;34m=[0m[0mconf[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    134[0m         [0;32mtry[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    135[0m             self._do_init(master, appName, sparkHome, pyFiles, environment, batchSize, serializer,
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/context.py[0m in [0;36m_ensure_initialized[0;34m(cls, instance, gateway, conf)[0m
+[1;32m    323[0m         [0;32mwith[0m [0mSparkContext[0m[0;34m.[0m[0m_lock[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    324[0m             [0;32mif[0m [0;32mnot[0m [0mSparkContext[0m[0;34m.[0m[0m_gateway[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 325[0;31m                 [0mSparkContext[0m[0;34m.[0m[0m_gateway[0m [0;34m=[0m [0mgateway[0m [0;32mor[0m [0mlaunch_gateway[0m[0;34m([0m[0mconf[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    326[0m                 [0mSparkContext[0m[0;34m.[0m[0m_jvm[0m [0;34m=[0m [0mSparkContext[0m[0;34m.[0m[0m_gateway[0m[0;34m.[0m[0mjvm[0m[0;34m[0m[0;34m[0m[0m
+[1;32m    327[0m [0;34m[0m[0m
+
+[0;32m~/opt/anaconda3/envs/sparkbook/lib/python3.8/site-packages/pyspark/java_gateway.py[0m in [0;36mlaunch_gateway[0;34m(conf, popen_kwargs)[0m
+[1;32m    103[0m [0;34m[0m[0m
+[1;32m    104[0m             [0;32mif[0m [0;32mnot[0m [0mos[0m[0;34m.[0m[0mpath[0m[0;34m.[0m[0misfile[0m[0;34m([0m[0mconn_info_file[0m[0;34m)[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m--> 105[0;31m                 [0;32mraise[0m [0mException[0m[0;34m([0m[0;34m"Java gateway process exited before sending its port number"[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m    106[0m [0;34m[0m[0m
+[1;32m    107[0m             [0;32mwith[0m [0mopen[0m[0;34m([0m[0mconn_info_file[0m[0;34m,[0m [0;34m"rb"[0m[0;34m)[0m [0;32mas[0m [0minfo[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mException[0m: Java gateway process exited before sending its port number
+Exception: Java gateway process exited before sending its port number
+
