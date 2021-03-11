@@ -2,7 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 #
 
-- file: Intro
+- file: intro
   numbered: false
 
 - part: Chapters
